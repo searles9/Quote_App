@@ -50,13 +50,14 @@ resource "aws_s3_bucket_object" "lambda_code_file" {
   etag   = filemd5(data.archive_file.lambda_code_file.output_path)
 }
 # ===========================================================
+# python3.8
 # --- lambda function ---
 resource "aws_lambda_function" "myfunc" {
   function_name    = "MyFunc"
   s3_bucket        = aws_s3_bucket.lambda_bucket.id
   s3_key           = aws_s3_bucket_object.lambda_code_file.key
-  runtime          = "nodejs12.x"
-  handler          = "hello.handler"
+  runtime          = "python3.8" 
+  handler          = "lambda_function.lambda_handler"
   source_code_hash = data.archive_file.lambda_code_file.output_base64sha256
   role             = aws_iam_role.lambda_exec_role.arn
 }

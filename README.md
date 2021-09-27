@@ -7,3 +7,4 @@ Terraform (IAC) AWS App Deployment
 
 # Documentation / Guides
 * I used this guide as a starting point for this project: https://learn.hashicorp.com/tutorials/terraform/lambda-api-gateway
+* Lambda Handler: https://docs.aws.amazon.com/lambda/latest/dg/python-handler.html
