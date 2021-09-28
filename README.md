@@ -7,8 +7,14 @@ Terraform (IAC) AWS App Deployment
 # What is this?
 
 # How does it work?
+* run apply
+* change api url
+* run the apply again
 
 # Documentation / Guides
 * I used this guide as a starting point for this project: https://learn.hashicorp.com/tutorials/terraform/lambda-api-gateway
 * Lambda Handler: https://docs.aws.amazon.com/lambda/latest/dg/python-handler.html
 * Parsing a JSON object with JS: https://www.freecodecamp.org/news/json-stringify-example-how-to-parse-a-json-object-with-javascript/
+* More parsing a JSON object with JS: https://www.tutorialrepublic.com/javascript-tutorial/javascript-json-parsing.php
+* Javascript textContent property: https://www.w3schools.com/jsref/prop_node_textcontent.asp
+* Javascript addEventListener() method: https://www.w3schools.com/jsref/met_element_addeventlistener.asp

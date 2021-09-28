@@ -1,16 +1,18 @@
-//hitCounter.textContent = 'Submitted. But check the result below!';
-// ----------------------------------------
-var API_URL = 'https://6s6u2vgo60.execute-api.us-east-1.amazonaws.com/serverless_lambda_stage/quote';
+document.getElementById('quoteBtn').addEventListener('click', getQuote);
+
+function getQuote(e){
+    e.preventDefault();
+    var API_URL = 'https://6s6u2vgo60.execute-api.us-east-1.amazonaws.com/serverless_lambda_stage/quote';
 
     fetch(API_URL, {
         headers:{
             "Content-type": "application/json"
         },
         method: 'GET',
-        // body: JSON.stringify(), // this turns the JS object literal into a JSON string for the API
+        // body: JSON.stringify(),
         mode: 'cors'
     })
-    .then((res) => res.json()) // this is making the reply into a json object literal 
+    .then((res) => res.json()) 
     .then(function(data) { 
         console.log(data) 
         quote.textContent = JSON.stringify(data.message);
@@ -18,3 +20,5 @@ var API_URL = 'https://6s6u2vgo60.execute-api.us-east-1.amazonaws.com/serverless
     .catch(function(err) {
         console.log(err)
     });
+}
+
