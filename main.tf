@@ -56,7 +56,7 @@ resource "aws_lambda_function" "myfunc" {
   function_name    = "MyFunc"
   s3_bucket        = aws_s3_bucket.lambda_bucket.id
   s3_key           = aws_s3_bucket_object.lambda_code_file.key
-  runtime          = "python3.8" 
+  runtime          = "python3.8"
   handler          = "lambda_function.lambda_handler"
   source_code_hash = data.archive_file.lambda_code_file.output_base64sha256
   role             = aws_iam_role.lambda_exec_role.arn
@@ -93,6 +93,12 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
 resource "aws_apigatewayv2_api" "lambda_api" {
   name          = "serverless_lambda_gw"
   protocol_type = "HTTP"
+  cors_configuration {
+    allow_headers     = ["*"]
+    allow_methods     = ["*"]
+    allow_origins     = ["*"]
+    max_age           = 3600
+  }
 }
 # ---api gateway stage ---
 resource "aws_apigatewayv2_stage" "prodstage" {

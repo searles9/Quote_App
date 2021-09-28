@@ -9,7 +9,13 @@ output "function_name" {
   value       = aws_lambda_function.myfunc.function_name
 }
 
-output "base_api_url" {  
+output "base_api_url" {
   description = "Base URL for API Gateway stage."
-  value = aws_apigatewayv2_stage.prodstage.invoke_url
+  value       = aws_apigatewayv2_stage.prodstage.invoke_url
+}
+
+
+output "website_s3_url" {
+  description = "Website endpoint"
+  value       = aws_s3_bucket.website_bucket.website_endpoint
 }

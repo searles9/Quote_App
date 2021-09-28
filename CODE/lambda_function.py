@@ -1,13 +1,15 @@
-# Func
 import json
 
-def lambda_handler(event, context):
-    #message = 'Hello {}!'.format(event['first_name'])  
+print('Loading MyFunc')
+
+def lambda_handler(event, context): 
     print("testing")
-    message = "It worked!"
+    message = {
+       'message': 'It Worked!'
+    }
     apiResponse = {
         "statusCode": 200,
         "headers": {"Content-Type": "application/json"},
-        "message": message
+        "body": json.dumps(message)
     }
     return apiResponse
