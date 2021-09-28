@@ -4,15 +4,22 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Quote Website">
 
   <title>Quote Website</title>
-  <meta name="description" content="Quote Website">
+  <link rel="stylesheet" href="style.css" type="text/css" media="all">
 </head>
 
 <body>
-  <h1>Quote Website</h1>
-  <button id="quoteBtn">Get Quote</button>
-  <p id="quote"></p>
+  <div class="wrapper">
+    <div class="center-main">
+      <h1>Quote Website</h1>
+      <button class="button" id="quoteBtn">Get Quote</button>
+    </div>
+    <div class="center-quote">
+      <p id="quote"></p>
+    </div>
+  </div>
   <script src="getquote.js"></script>
 </body>
 </html>

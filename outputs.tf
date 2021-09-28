@@ -14,7 +14,6 @@ output "base_api_url" {
   value       = aws_apigatewayv2_stage.prodstage.invoke_url
 }
 
-
 output "website_s3_url" {
   description = "Website endpoint"
   value       = aws_s3_bucket.website_bucket.website_endpoint

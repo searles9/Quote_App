@@ -1,5 +1,6 @@
 # --- root/main.tf ---
 # ===========================================================
+# PROVIDERS
 #---providers---
 terraform {
   required_providers {
@@ -23,6 +24,22 @@ provider "aws" {
   region = var.aws_region
 }
 # ===========================================================
+# --- locals ---
+locals {
+  mime_types = {
+    "css"  = "text/css"
+    "html" = "text/html"
+    "ico"  = "image/vnd.microsoft.icon"
+    "js"   = "application/javascript"
+    "json" = "application/json"
+    "map"  = "application/json"
+    "png"  = "image/png"
+    "svg"  = "image/svg+xml"
+    "txt"  = "text/plain"
+  }
+}
+# ===========================================================
+# LAMBDA CODE AND S3 BUCKET
 # --- lambda s3 bucket ---
 
 resource "aws_s3_bucket" "lambda_bucket" {
@@ -34,7 +51,6 @@ resource "aws_s3_bucket" "lambda_bucket" {
     Name = "QuoteAppCode"
   }
 }
-# ===========================================================
 #--- zip code ---
 data "archive_file" "lambda_code_file" {
   type        = "zip"
@@ -50,7 +66,7 @@ resource "aws_s3_bucket_object" "lambda_code_file" {
   etag   = filemd5(data.archive_file.lambda_code_file.output_path)
 }
 # ===========================================================
-# python3.8
+# LAMBDA FUNCTION
 # --- lambda function ---
 resource "aws_lambda_function" "myfunc" {
   function_name    = "MyFunc"
@@ -89,6 +105,7 @@ resource "aws_iam_role_policy_attachment" "lambda_policy" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 # ===========================================================
+# API GATEWAY
 # --- api gateway ---
 resource "aws_apigatewayv2_api" "lambda_api" {
   name          = "serverless_lambda_gw"
@@ -155,3 +172,27 @@ resource "aws_lambda_permission" "api_gw" {
 
   source_arn = "${aws_apigatewayv2_api.lambda_api.execution_arn}/*/*"
 }
+# ===========================================================
+# S3 WEBSITE
+# --- s3 static site ---
+resource "aws_s3_bucket" "website_bucket" {
+  bucket = "website-code-quote-app-1111"
+  acl = "public-read"
+  website {
+    index_document = "index.html"
+    error_document = "error.html"
+   }
+}
+# --- upload files to s3 site ---
+resource "aws_s3_bucket_object" "website_files" {
+  for_each = fileset("${path.module}/WEBSITE", "**/*.*")
+  bucket       = aws_s3_bucket.website_bucket.id
+  key          = each.key
+  acl          = "public-read"
+  source       = "${path.module}/WEBSITE/${each.key}"
+  content_type = lookup(tomap(local.mime_types), element(split(".", each.key), length(split(".", each.key)) - 1))
+  etag         = filemd5("${path.module}/WEBSITE/${each.key}")
+}
+# ===========================================================
+# DYNAMO DB TABLE
+# --- title ---
