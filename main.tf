@@ -135,6 +135,7 @@ data "aws_iam_policy_document" "ddb_policy_doc" {
       "dynamodb:Scan",
       "dynamodb:UpdateItem",
       "dynamodb:Query",
+      "dynamodb:DescribeTable",
     ]
 
     resources = [
@@ -254,9 +255,14 @@ resource "aws_dynamodb_table" "ddb_table" {
   name        = "MyTable"
   billing_mode = "PAY_PER_REQUEST"
   hash_key       = "id"
+  range_key      = "quotetype"
   attribute {
     name = "id"
     type = "N"
+  }
+  attribute {
+    name = "quotetype"
+    type = "S"
   }
 
   provisioner "local-exec" {

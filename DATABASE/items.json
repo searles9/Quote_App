@@ -6,6 +6,9 @@
                     "id": {
                         "N": "1"
                     },
+                    "quotetype": {
+                        "S": "general"
+                    },
                     "quote": {
                         "S": "Nobody likes a sad person."
                     }
@@ -17,6 +20,9 @@
                 "Item": {
                     "id": {
                         "N": "2"
+                    },
+                    "quotetype": {
+                        "S": "general"
                     },
                     "quote": {
                         "S": "Pain is only in the mind."
@@ -30,6 +36,9 @@
                     "id": {
                         "N": "3"
                     },
+                    "quotetype": {
+                        "S": "general"
+                    },
                     "quote": {
                         "S": "Success is not final. Failure is not fatal. It is the courage to continue that counts."
                     }
@@ -41,6 +50,9 @@
                 "Item": {
                     "id": {
                         "N": "4"
+                    },
+                    "quotetype": {
+                        "S": "general"
                     },
                     "quote": {
                         "S": "Belive in yourself and anything is possible."
@@ -54,6 +66,9 @@
                     "id": {
                         "N": "5"
                     },
+                    "quotetype": {
+                        "S": "general"
+                    },
                     "quote": {
                         "S": "You must reject common thinking if you want to accomplish uncommon results."
                     }
@@ -65,6 +80,9 @@
                 "Item": {
                     "id": {
                         "N": "6"
+                    },
+                    "quotetype": {
+                        "S": "general"
                     },
                     "quote": {
                         "S": "The 20th century is all about how fast you can learn."
@@ -78,6 +96,9 @@
                     "id": {
                         "N": "7"
                     },
+                    "quotetype": {
+                        "S": "general"
+                    },
                     "quote": {
                         "S": "They say you love to those who give, but the truth is you give to those you love."
                     }
@@ -89,6 +110,9 @@
                 "Item": {
                     "id": {
                         "N": "8"
+                    },
+                    "quotetype": {
+                        "S": "general"
                     },
                     "quote": {
                         "S": "Good things come to people who wait, but better things come to those who go out and get them."
@@ -102,6 +126,9 @@
                     "id": {
                         "N": "9"
                     },
+                    "quotetype": {
+                        "S": "general"
+                    },
                     "quote": {
                         "S": "We are what we repeatedly do. Excellence, then, is not an act, but a habit."
                     }
@@ -113,6 +140,9 @@
                 "Item": {
                     "id": {
                         "N": "10"
+                    },
+                    "quotetype": {
+                        "S": "general"
                     },
                     "quote": {
                         "S": "Success comes from having dreams that are bigger than your fears."

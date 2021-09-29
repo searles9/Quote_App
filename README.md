@@ -23,6 +23,12 @@ Terraform (IAC) AWS App Deployment
 * DynamoDB partition key: https://aws.amazon.com/blogs/database/choosing-the-right-dynamodb-partition-key/
 * Using terraform to write bulk items to dynamodb: https://jacob-hudson.github.io/terraform/aws/dynamodb/2020/04/27/terraform-bulk-upload.html
 * Query DynamoDB: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.Python.04.html
+* DynamoDB and Boto3: https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html
+* Getting started guide: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.Python.html
+* Lambda exception handling: https://towardsdatascience.com/why-you-should-never-ever-print-in-a-lambda-function-f997d684a705
+* key provided does not match the schema: https://stackoverflow.com/questions/42757872/the-provided-key-element-does-not-match-the-schema-error-when-getting-an-item
+* list indicies must be integers: https://stackoverflow.com/questions/55054007/not-being-able-to-get-a-value-from-a-dictionary
+- and:  https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.Python.04.html
 ***
 # Notes
 * Test invoke the function: aws lambda invoke --region=us-east-1 --function-name=$(terraform output -raw function_name) response.json
