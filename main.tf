@@ -256,4 +256,8 @@ resource "aws_dynamodb_table" "ddb_table" {
     name = "id"
     type = "N"
   }
+
+  provisioner "local-exec" {
+    command = "bash DATABASE/populate_db.sh"
+  }
 }
