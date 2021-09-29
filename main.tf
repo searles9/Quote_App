@@ -74,6 +74,7 @@ resource "aws_lambda_function" "myfunc" {
   s3_key           = aws_s3_bucket_object.lambda_code_file.key
   runtime          = "python3.8"
   handler          = "lambda_function.lambda_handler"
+  timeout          = 300
   source_code_hash = data.archive_file.lambda_code_file.output_base64sha256
   role             = aws_iam_role.lambda_exec_role.arn
 }
@@ -133,6 +134,7 @@ data "aws_iam_policy_document" "ddb_policy_doc" {
       "dynamodb:PutItem",
       "dynamodb:Scan",
       "dynamodb:UpdateItem",
+      "dynamodb:Query",
     ]
 
     resources = [

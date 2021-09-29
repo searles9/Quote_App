@@ -1,11 +1,24 @@
 import json
+import boto3
+from boto3.dynamodb.conditions import Key
 
-print('Loading MyFunc')
+TABLE_NAME = "MyTable"
+# Create the table resource
+dynamodb = boto3.resource('dynamodb', region_name="us-east-1")
+table = dynamodb.Table(TABLE_NAME)
+
+def getData():
+    response = table.query(
+        KeyConditionExpression=Key('id').eq('7'),
+        ExpressionAttributeValues={
+            ':id': {'N': '7'}
+        }
+    )
+    return response['Items']
 
 def lambda_handler(event, context): 
-    print("testing")
     message = {
-       'message': 'It Worked!'
+       'message': json.dumps(getData())
     }
     apiResponse = {
         "statusCode": 200,

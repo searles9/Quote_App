@@ -22,6 +22,7 @@ Terraform (IAC) AWS App Deployment
 * You dont have to define all dynamodb attributes up front: https://newbedev.com/terraform-dynamodb-all-attributes-must-be-indexed
 * DynamoDB partition key: https://aws.amazon.com/blogs/database/choosing-the-right-dynamodb-partition-key/
 * Using terraform to write bulk items to dynamodb: https://jacob-hudson.github.io/terraform/aws/dynamodb/2020/04/27/terraform-bulk-upload.html
+* Query DynamoDB: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.Python.04.html
 ***
 # Notes
 * Test invoke the function: aws lambda invoke --region=us-east-1 --function-name=$(terraform output -raw function_name) response.json
