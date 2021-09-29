@@ -18,6 +18,10 @@ Terraform (IAC) AWS App Deployment
 * More parsing a JSON object with JS: https://www.tutorialrepublic.com/javascript-tutorial/javascript-json-parsing.php
 * Javascript textContent property: https://www.w3schools.com/jsref/prop_node_textcontent.asp
 * Javascript addEventListener() method: https://www.w3schools.com/jsref/met_element_addeventlistener.asp
+* simple microservice using Lambda and API Gateway: https://docs.aws.amazon.com/lambda/latest/dg/services-apigateway-blueprint.html
+* You dont have to define all dynamodb attributes up front: https://newbedev.com/terraform-dynamodb-all-attributes-must-be-indexed
+* DynamoDB partition key: https://aws.amazon.com/blogs/database/choosing-the-right-dynamodb-partition-key/
+* Using terraform to write bulk items to dynamodb: https://jacob-hudson.github.io/terraform/aws/dynamodb/2020/04/27/terraform-bulk-upload.html
 ***
 # Notes
 * Test invoke the function: aws lambda invoke --region=us-east-1 --function-name=$(terraform output -raw function_name) response.json

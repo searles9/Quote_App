@@ -99,10 +99,62 @@ resource "aws_iam_role" "lambda_exec_role" {
     ]
   })
 }
-# --- attach policy to execution role ---
-resource "aws_iam_role_policy_attachment" "lambda_policy" {
+# --- cloud watch policy for the lambda execution role---
+data "aws_iam_policy_document" "lambda_cw_policy_doc" {
+  statement {
+    sid = "1"
+    effect ="Allow"
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+    ]
+
+    resources = [
+      "*",
+    ]
+  }
+}
+
+resource "aws_iam_policy" "lambda_cw_policy" {
+  name   = "lambda_cw_policy"
+  path   = "/"
+  policy = data.aws_iam_policy_document.lambda_cw_policy_doc.json
+}
+
+# --- dynamo db policy for the lambda execution role ---
+data "aws_iam_policy_document" "ddb_policy_doc" {
+  statement {
+    sid = "2"
+    effect ="Allow"
+    actions = [
+      "dynamodb:DeleteItem",
+      "dynamodb:GetItem",
+      "dynamodb:PutItem",
+      "dynamodb:Scan",
+      "dynamodb:UpdateItem",
+    ]
+
+    resources = [
+      "${aws_dynamodb_table.ddb_table.arn}",
+    ]
+  }
+}
+
+resource "aws_iam_policy" "ddb_policy" {
+  name   = "ddb_policy"
+  path   = "/"
+  policy = data.aws_iam_policy_document.ddb_policy_doc.json
+}
+
+# --- attach policies to execution role ---
+resource "aws_iam_role_policy_attachment" "lambda_cw_policy" {
   role       = aws_iam_role.lambda_exec_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+  policy_arn = aws_iam_policy.lambda_cw_policy.arn
+}
+resource "aws_iam_role_policy_attachment" "lambda_ddb_policy" {
+  role       = aws_iam_role.lambda_exec_role.name
+  policy_arn = aws_iam_policy.ddb_policy.arn
 }
 # ===========================================================
 # API GATEWAY
@@ -112,7 +164,7 @@ resource "aws_apigatewayv2_api" "lambda_api" {
   protocol_type = "HTTP"
   cors_configuration {
     allow_headers     = ["*"]
-    allow_methods     = ["*"]
+    allow_methods     = ["POST","GET"]
     allow_origins     = ["*"]
     max_age           = 3600
   }
@@ -195,4 +247,13 @@ resource "aws_s3_bucket_object" "website_files" {
 }
 # ===========================================================
 # DYNAMO DB TABLE
-# --- title ---
+# --- database ---
+resource "aws_dynamodb_table" "ddb_table" {
+  name        = "MyTable"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key       = "id"
+  attribute {
+    name = "id"
+    type = "N"
+  }
+}
