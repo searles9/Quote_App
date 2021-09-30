@@ -2,7 +2,7 @@ document.getElementById('quoteBtn').addEventListener('click', getQuote);
 
 function getQuote(e){
     e.preventDefault();
-    var API_URL = 'https://xzroqd8xj8.execute-api.us-east-1.amazonaws.com/serverless_lambda_stage/quote';
+    var API_URL = 'https://4p0w15mm92.execute-api.us-east-1.amazonaws.com/serverless_lambda_stage/quote';
 
     fetch(API_URL, {
         headers:{

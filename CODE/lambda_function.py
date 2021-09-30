@@ -4,7 +4,6 @@ import traceback
 import json
 import random
 import boto3
-from boto3.dynamodb.conditions import Key, Attr
 
 # Setup logging stuff
 logger = logging.getLogger()
@@ -15,33 +14,21 @@ dynamodb = boto3.resource('dynamodb')
 # Instantiate a table resource object
 table = dynamodb.Table('MyTable')
 
-def getItem():
+
+def getItem(idnum,rangekey):
     response = table.get_item(
         Key={
-            'id': 7,
-            'quotetype': 'general'
+            'id': idnum,
+            'quotetype': rangekey
         }
     )
-    item = response['Item']
-    return item
-
-def queryItem(idnum):
-    response = table.query(
-        KeyConditionExpression=Key('id').eq(idnum)
-    )
-    items = response['Items']
-    logger.info(f"The return from the query: {items}")
-    for item in items:
-            logger.info(item['quote'])
-            theitem = item['quote']
-    return str(theitem)
+    logger.info(f"full get_item result: {response['Item']}")
+    return response['Item']['quote']
 
 def lambda_handler(event, context): 
     try:
         logger.info(f'event: {event}')
-        
-        quote = queryItem(random.choice(range(1,11)))
-
+        quote = getItem(random.choice(range(1,11)),'general')
         message = {
                 'message': quote
         }

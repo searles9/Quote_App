@@ -1,15 +1,50 @@
 # Quote App / Terraform AWS Deployment
-Terraform (IAC) AWS App Deployment
-
-# Important notes
-* I could have broken some of the resources into modules - I just didnt want to go through that extra work for this particular project
 
 # What is this?
+This is a web application that allows you to get a random quote. 
 
-# How does it work?
-* run apply
-* change api url
-* run the apply again
+![Website](./IMAGES/Website.png)
+# Architecture
+![Diagram](./IMAGES/Diagram.png)
+Everything is deployed to AWS using Terraform. That includes the IAM policies, the website code, the DynamoDB table data, etc...  You can view the ```main.tf``` file to get a better idea of what all is deployed.
+
+## Basic overview:
+* User goes to a static website which is hosted in S3
+* When the "Get Quote" button is clicked is calls an API Gateway endpoint
+* The api triggers a lamdbda function
+* The lamdba function queries dynamodb and returns a random quote from the database
+* The random quote is sent back to the client PC and is displayed in a ```<p>``` HTML element
+
+## Technical challenges:
+From my research there is no native way to query a random item in DynamoDB (which is a sham because that option exists in many other database types). There are creative solutions that can make this possible but most have some sort of major draw back or require additional heavy lifiting. To eliminate some complexity in this project I made the partition key "id", and then inserted 10 records into the table. In the lambda function I then searched dynamodb for a random id in the range I created.
+
+***
+# Get it up and running:
+1. Run terraform apply to build the terraform resources:
+```
+terraform apply --auto-approve
+```
+2. Grab the "quote_api_ url output":
+![QuoteOutput](./IMAGES/quote_url.png)
+3. Update the website javascript file to use that new api url:
+![ApiURL](./IMAGES/update_js_url.png)
+4. Run another apply to update the website code:
+```
+terraform apply --auto-approve
+```
+5. The site should now be operational. You can use the website url output to quickly get to the static website:
+![WebsiteURL](./IMAGES/website_url.png)
+![Website](./IMAGES/website_no_quote.png)
+
+***
+# Important notes
+* I could have broken some of the resources into modules - I just didnt want to go through that extra work for this particular project
+* I am aware that the website UI looks like trash. That wasnt the main focus of the project.
+***
+# Some Technical Notes
+* Test invoke the function: aws lambda invoke --region=us-east-1 --function-name=$(terraform output -raw function_name) response.json
+* curl: curl "$(terraform output -raw base_api_url)/quote"
+
 ***
 # Documentation / Guides
 * I used this guide as a starting point for this project: https://learn.hashicorp.com/tutorials/terraform/lambda-api-gateway
@@ -30,6 +65,3 @@ Terraform (IAC) AWS App Deployment
 * list indicies must be integers: https://stackoverflow.com/questions/55054007/not-being-able-to-get-a-value-from-a-dictionary
 - and:  https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GettingStarted.Python.04.html
 ***
-# Notes
-* Test invoke the function: aws lambda invoke --region=us-east-1 --function-name=$(terraform output -raw function_name) response.json
-* curl: curl "$(terraform output -raw base_api_url)/quote"
