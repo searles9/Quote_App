@@ -1,22 +1,22 @@
 # Quote App / Terraform AWS Deployment
 
 # What is this?
-This is a web application that allows you to get a random quote. 
+This is a web application that allows you to request a random quote. 
 
 ![Website](./IMAGES/Website.png)
 # Architecture
 ![Diagram](./IMAGES/Diagram.png)
-Everything is deployed to AWS using Terraform. That includes the IAM policies, the website code, the DynamoDB table data, etc...  You can view the ```main.tf``` file to get a better idea of what all is deployed.
+Everything is deployed to AWS using Terraform. That includes the IAM policies, the website code, the DynamoDB table data, etc...  You can view the ```main.tf``` file to get a better idea of everything that is deployed.
 
 ## Basic overview:
 * User goes to a static website which is hosted in S3
-* When the "Get Quote" button is clicked is calls an API Gateway endpoint
+* When the "Get Quote" button is clicked, it calls an API Gateway endpoint
 * The api triggers a lamdbda function
 * The lamdba function queries dynamodb and returns a random quote from the database
 * The random quote is sent back to the client PC and is displayed in a ```<p>``` HTML element
 
 ## Technical challenges:
-From my research there is no native way to query a random item in DynamoDB (which is a sham because that option exists in many other database types). There are creative solutions that can make this possible but most have some sort of major draw back or require additional heavy lifiting. To eliminate some complexity in this project I made the partition key "id", and then inserted 10 records into the table. In the lambda function I then searched dynamodb for a random id in the range I created.
+From my research, there is no native way to query a random item in DynamoDB (which is a sham because that option exists in other database types). There are creative solutions that can make this possible, but most have some sort of major draw back or require additional heavy lifiting. To eliminate some complexity in this project, I set the partition key of the DynamoDb table as "id" and inserted 10 records that each contiained an id within 1-10. Then in the lambda function, I queried dynamodb for a random id inside the range 1-10. A better long-term/scalable solution would probably be to use a database that allows for searching random records. 
 
 ***
 # Get it up and running:
@@ -39,7 +39,7 @@ terraform apply --auto-approve
 ***
 # Important notes
 * I could have broken some of the resources into modules - I just didnt want to go through that extra work for this particular project
-* I am aware that the website UI looks like trash. That wasnt the main focus of the project.
+* I am aware that the website UI looks like trash. That wasn't the main focus of the project.
 ***
 # Some Technical Notes
 * Test invoke the function: aws lambda invoke --region=us-east-1 --function-name=$(terraform output -raw function_name) response.json
